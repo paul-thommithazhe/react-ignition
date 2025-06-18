@@ -43,6 +43,7 @@
     "picocolors": "^1.1.1",
     "picomatch": "^2.3.1",
     "postcss-value-parser": "^4.2.0",
+    "react-dom": "^19.1.0",
     "react-refresh": "^0.16.0",
     "regenerator-runtime": "^0.14.1",
     "safe-buffer": "^5.2.1",
@@ -57,6 +58,8 @@
     "weak-lru-cache": "^1.2.2"
   },
   "scripts": {
+    "start":"parcel index.html",
+    "prod":"parcel build index.html",
     "test": "jest"
   },
   "repository": {
