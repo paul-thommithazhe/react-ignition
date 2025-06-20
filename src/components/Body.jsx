@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 
 const Body = () => {
+  console.log("headeer");
+
   const [listOfResObj, setListOfResObj] = useState([]);
+  const [searchText, setSearchText] = useState(" ");
   useEffect(() => {
     fetchData();
   }, []);
@@ -26,23 +29,48 @@ const Body = () => {
       console.log(e);
     }
   };
-  if (listOfResObj.length === 0) {
-    return <Shimmer />;
-  }
-  return (
+  return listOfResObj.length === 0 ? (
+    <Shimmer />
+  ) : (
     <div className="body">
-      <div className="filter-btn">
-        <button
-          onClick={() => {
-            const filteredList = listOfResObj.filter(
-              (resData) => resData.info.avgRating > 4.4
-            );
-            setListOfResObj(filteredList);
-          }}
-        >
-          Top Rated Restaurents
-        </button>
+      <div className="filter-search">
+        <div className="search">
+          <input
+            type="text"
+            className="search-box"
+            value={searchText}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+          />
+          <button
+            onClick={() => {
+              const searchTextFilter = listOfResObj.filter((resData) =>
+                resData.info.name
+                  .toLowerCase()
+                  .includes(searchText.toLowerCase())
+              );
+
+              setListOfResObj(searchTextFilter);
+            }}
+          >
+            Search
+          </button>
+        </div>
+        <div className="filter-btn">
+          <button
+            onClick={() => {
+              const filteredList = listOfResObj.filter(
+                (resData) => resData.info.avgRating > 4.4
+              );
+              setListOfResObj(filteredList);
+            }}
+          >
+            Top Rated Restaurents
+          </button>
+        </div>
       </div>
+
       <div className="restaurant-container">
         {listOfResObj.map((restaurants, index) => (
           <RestaurantCard key={restaurants.info.id} resData={restaurants} />
