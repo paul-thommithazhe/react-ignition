@@ -1,27 +1,3 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-
-const Header = () => {
-  return (
-    <div className="main-header">
-      <div className="logo-container">
-        <img
-          className="logo"
-          src="https://img.freepik.com/premium-vector/food-logo-vector-design-template_600323-3904.jpg?semt=ais_hybrid"
-        />
-      </div>
-      <div className="nav-items">
-        <ul>
-          <li> Home</li>
-          <li> About</li>
-          <li>Cart</li>
-        </ul>
-      </div>
-    </div>
-  );
-};
-
-//Body
 const resObj = [
   {
     info: {
@@ -1096,47 +1072,4 @@ const resObj = [
   },
 ];
 
-const Body = () => {
-  return (
-    <div className="body">
-      <div className="search">search</div>
-      <div className="restaurant-container">
-        {resObj.map((restaurants, index) => (
-          <RestaurantCard key={restaurants.info.id} resData={restaurants} />
-        ))}
-      </div>
-    </div>
-  );
-};
-const RestaurantCard = (props) => {
-  const { resData } = props;
-  console.log(resData.info.cloudinaryImageId);
-  return (
-    <div className="res-card">
-      <img
-        className="res-card-img"
-        src={
-          "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/" +
-          resData.info.cloudinaryImageId
-        }
-      />
-
-      <h3>{resData.info.name}</h3>
-      <h5>{resData.info.cuisines.join(" , ")}</h5>
-      <h5>{resData.info.avgRating + " Stars"}</h5>
-      <h5>{"Delivery in : " + resData.info.sla.deliveryTime + " Minutes"} </h5>
-    </div>
-  );
-};
-const AppLayout = () => {
-  return (
-    <div className="appLayout">
-      <Header />
-      <Body />
-    </div>
-  );
-};
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-
-root.render(<AppLayout />);
+export default resObj;
