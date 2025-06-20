@@ -1,9 +1,9 @@
 import RestaurantCard from "./Restaurent";
 import { useEffect, useState } from "react";
+import Shimmer from "./Shimmer";
 
 const Body = () => {
   const [listOfResObj, setListOfResObj] = useState([]);
-  const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetchData();
   }, []);
@@ -24,12 +24,10 @@ const Body = () => {
       );
     } catch (e) {
       console.log(e);
-    } finally {
-      setLoading(false);
     }
   };
-  if (loading) {
-    return <div className="spinner"></div>;
+  if (listOfResObj.length === 0) {
+    return <Shimmer />;
   }
   return (
     <div className="body">
