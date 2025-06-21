@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 
 const Body = () => {
-  console.log("headeer");
-
   const [listOfResObj, setListOfResObj] = useState([]);
+  const [filterObj, setFilterObj] = useState([]);
   const [searchText, setSearchText] = useState(" ");
   useEffect(() => {
     fetchData();
@@ -23,14 +22,44 @@ const Body = () => {
       );
       setListOfResObj(
         json.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants || []
+          ?.restaurants
+      );
+      setFilterObj(
+        json.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants
       );
     } catch (e) {
       console.log(e);
     }
   };
-  return listOfResObj.length === 0 ? (
-    <Shimmer />
+  return filterObj.length === 0 ? (
+    <div>
+      
+      
+       <div className="search">
+          <input
+            type="text"
+            className="search-box"
+            value={searchText}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+            }}
+          />
+          <button
+            onClick={() => {
+              const searchTextFilter = listOfResObj.filter((res) => {
+                return res.info.name
+                  .toLowerCase()
+                  .includes(searchText.trim().toLowerCase());
+              });
+              setFilterObj(searchTextFilter);
+            }}
+          >
+            Search
+          </button>
+           <Shimmer />
+        </div> </div>
+   
   ) : (
     <div className="body">
       <div className="filter-search">
@@ -45,13 +74,12 @@ const Body = () => {
           />
           <button
             onClick={() => {
-              const searchTextFilter = listOfResObj.filter((resData) =>
-                resData.info.name
+              const searchTextFilter = listOfResObj.filter((res) => {
+                return res.info.name
                   .toLowerCase()
-                  .includes(searchText.toLowerCase())
-              );
-
-              setListOfResObj(searchTextFilter);
+                  .includes(searchText.trim().toLowerCase());
+              });
+              setFilterObj(searchTextFilter);
             }}
           >
             Search
@@ -63,7 +91,7 @@ const Body = () => {
               const filteredList = listOfResObj.filter(
                 (resData) => resData.info.avgRating > 4.4
               );
-              setListOfResObj(filteredList);
+              setFilterObj(filteredList);
             }}
           >
             Top Rated Restaurents
@@ -72,7 +100,7 @@ const Body = () => {
       </div>
 
       <div className="restaurant-container">
-        {listOfResObj.map((restaurants, index) => (
+        {filterObj.map((restaurants, index) => (
           <RestaurantCard key={restaurants.info.id} resData={restaurants} />
         ))}
       </div>
