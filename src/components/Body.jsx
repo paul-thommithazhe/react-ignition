@@ -5,7 +5,8 @@ import Shimmer from "./Shimmer";
 const Body = () => {
   const [listOfResObj, setListOfResObj] = useState([]);
   const [filterObj, setFilterObj] = useState([]);
-  const [searchText, setSearchText] = useState(" ");
+  const [searchText, setSearchText] = useState("");
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -16,50 +17,38 @@ const Body = () => {
         "https://www.swiggy.com/dapi/restaurants/list/v5?lat=10.0158605&lng=76.3418666&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
       );
       const json = await data.json();
-      console.log(
+      const restaurants =
         json.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants
-      );
-      setListOfResObj(
-        json.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants
-      );
-      setFilterObj(
-        json.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants
-      );
+          ?.restaurants || [];
+
+      setListOfResObj(restaurants);
+      setFilterObj(restaurants);
     } catch (e) {
       console.log(e);
     }
   };
+
+  const handleSearch = () => {
+    const searchTextFilter = listOfResObj.filter((resData) =>
+      resData.info.name.toLowerCase().includes(searchText.trim().toLowerCase())
+    );
+    setFilterObj(searchTextFilter);
+  };
+
   return filterObj.length === 0 ? (
-    <div>
-      
-      
-       <div className="search">
-          <input
-            type="text"
-            className="search-box"
-            value={searchText}
-            onChange={(e) => {
-              setSearchText(e.target.value);
-            }}
-          />
-          <button
-            onClick={() => {
-              const searchTextFilter = listOfResObj.filter((res) => {
-                return res.info.name
-                  .toLowerCase()
-                  .includes(searchText.trim().toLowerCase());
-              });
-              setFilterObj(searchTextFilter);
-            }}
-          >
-            Search
-          </button>
-           <Shimmer />
-        </div> </div>
-   
+    <div className="search shimmer-wrapper">
+      <input
+        type="text"
+        className="search-box"
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handleSearch();
+        }}
+      />
+      <button onClick={handleSearch}>Search</button>
+      <Shimmer />
+    </div>
   ) : (
     <div className="body">
       <div className="filter-search">
@@ -68,23 +57,14 @@ const Body = () => {
             type="text"
             className="search-box"
             value={searchText}
-            onChange={(e) => {
-              setSearchText(e.target.value);
+            onChange={(e) => setSearchText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSearch();
             }}
           />
-          <button
-            onClick={() => {
-              const searchTextFilter = listOfResObj.filter((res) => {
-                return res.info.name
-                  .toLowerCase()
-                  .includes(searchText.trim().toLowerCase());
-              });
-              setFilterObj(searchTextFilter);
-            }}
-          >
-            Search
-          </button>
+          <button onClick={handleSearch}>Search</button>
         </div>
+
         <div className="filter-btn">
           <button
             onClick={() => {
@@ -94,13 +74,13 @@ const Body = () => {
               setFilterObj(filteredList);
             }}
           >
-            Top Rated Restaurents
+            Top Rated Restaurants
           </button>
         </div>
       </div>
 
       <div className="restaurant-container">
-        {filterObj.map((restaurants, index) => (
+        {filterObj.map((restaurants) => (
           <RestaurantCard key={restaurants.info.id} resData={restaurants} />
         ))}
       </div>
