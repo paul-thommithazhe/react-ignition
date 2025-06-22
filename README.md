@@ -1,3 +1,3 @@
 # react-ignition
 
-![Alt text](assets\swiggy-project.png)
+![Alt text](assets/swiggy-project.png)
