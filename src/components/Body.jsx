@@ -11,38 +11,50 @@ const Body = () => {
     searchText,
     setSearchText,
     setFilterObj,
-  } = useHomeData(); // custom HOOK 
+  } = useHomeData(); // custom HOOK
   return filterObj.length === 0 ? (
-    <div className="search shimmer-wrapper">
-      <input
-        type="text"
-        className="search-box"
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") handleSearch();
-        }}
-      />
-      <button onClick={handleSearch}>Search</button>
-      <Shimmer />
+    <div className=" max-w-7xl mx-auto px-4">
+      <div className="flex flex-wrap justify-start items-center gap-4 my-5">
+        <input
+          type="text"
+          className="border border-solid border-black rounded-lg px-2 py-1"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleSearch();
+          }}
+        />
+        <button
+          className="bg-green-300 px-5 py-1 mx-2  rounded-lg"
+          onClick={handleSearch}
+        >
+          Search
+        </button>
+        <Shimmer />
+      </div>
     </div>
   ) : (
-    <div className="body">
-      <div className="filter-search">
-        <div className="search">
+    <div className="max-w-7xl mx-auto px-4">
+      <div className="flex m-5 ">
+        <div className="px-5">
           <input
             type="text"
-            className="search-box"
+            className="border border-solid border-black rounded-lg px-2 py-1"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") handleSearch();
             }}
           />
-          <button onClick={handleSearch}>Search</button>
+          <button
+            className="bg-green-300 px-5 py-1 mx-2  rounded-lg"
+            onClick={handleSearch}
+          >
+            Search
+          </button>
         </div>
 
-        <div className="filter-btn">
+        <div className="bg-gray-200 px-3 py-1 rounded-lg">
           <button
             onClick={() => {
               const filteredList = listOfResObj.filter(
@@ -56,7 +68,7 @@ const Body = () => {
         </div>
       </div>
 
-      <div className="restaurant-container">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filterObj.map((restaurants) => (
           <RestaurantCard key={restaurants.info.id} resData={restaurants} />
         ))}

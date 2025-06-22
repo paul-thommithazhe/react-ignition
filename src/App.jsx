@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
-import Contact from "./components/contact";
+import Contact from "./components/Contact";
 import Error from "./components/error";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { lazy, Suspense } from "react";
@@ -10,11 +10,11 @@ import { lazy, Suspense } from "react";
 
 //lazy loading // Dynamic bundling // code splitting // chunking.....
 
-const About = lazy(() => import("./components/about"));
+const About = lazy(() => import("./components/About"));
 
 const AppLayout = () => {
   return (
-    <div className="appLayout">
+    <div className="h-screen mt-40">
       <Header />
       <Outlet />
     </div>
