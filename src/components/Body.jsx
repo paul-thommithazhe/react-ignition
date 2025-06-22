@@ -1,40 +1,17 @@
 import RestaurantCard from "./Restaurent";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
+import useHomeData from "../utils/useHomeData";
 
 const Body = () => {
-  const [listOfResObj, setListOfResObj] = useState([]);
-  const [filterObj, setFilterObj] = useState([]);
-  const [searchText, setSearchText] = useState("");
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const data = await fetch(
-        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=10.0158605&lng=76.3418666&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-      );
-      const json = await data.json();
-      const restaurants =
-        json.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants || [];
-
-      setListOfResObj(restaurants);
-      setFilterObj(restaurants);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const handleSearch = () => {
-    const searchTextFilter = listOfResObj.filter((resData) =>
-      resData.info.name.toLowerCase().includes(searchText.trim().toLowerCase())
-    );
-    setFilterObj(searchTextFilter);
-  };
-
+  const {
+    filterObj,
+    handleSearch,
+    listOfResObj,
+    searchText,
+    setSearchText,
+    setFilterObj,
+  } = useHomeData(); // custom HOOK 
   return filterObj.length === 0 ? (
     <div className="search shimmer-wrapper">
       <input
