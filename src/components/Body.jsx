@@ -68,7 +68,7 @@ const Body = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 cursor-pointer">
         {filterObj.map((restaurants) => (
           <RestaurantCard key={restaurants.info.id} resData={restaurants} />
         ))}
